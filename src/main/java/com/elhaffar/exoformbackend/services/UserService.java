@@ -73,6 +73,10 @@ public class UserService implements UserServiceImpl{
         if(userRepository.findByEmail(registerDto.getEmail()).isPresent()){
             throw new RuntimeException("Email déjà utilisé");
         }
+        if(userRepository.findByPhone(registerDto.getPhone()).isPresent()){
+            throw new RuntimeException("Numéro de téléphone existant");
+        }
+
         User user = registerMapper.toEntity(registerDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
