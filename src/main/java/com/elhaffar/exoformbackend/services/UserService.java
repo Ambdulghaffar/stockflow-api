@@ -2,14 +2,18 @@ package com.elhaffar.exoformbackend.services;
 
 import com.elhaffar.exoformbackend.dto.LoginDto;
 import com.elhaffar.exoformbackend.dto.RegisterDto;
+import com.elhaffar.exoformbackend.dto.UserDto;
 import com.elhaffar.exoformbackend.entities.User;
 import com.elhaffar.exoformbackend.mapper.LoginMapper;
 import com.elhaffar.exoformbackend.mapper.RegisterMapper;
+import com.elhaffar.exoformbackend.mapper.UserDtoMapper;
 import com.elhaffar.exoformbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -18,11 +22,13 @@ public class UserService implements UserServiceImpl{
 
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private LoginMapper loginMapper;
     @Autowired
     private RegisterMapper registerMapper;
+    @Autowired
+    private UserDtoMapper userDtoMapper;
+
 
 
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -94,5 +100,14 @@ public class UserService implements UserServiceImpl{
 
     }
 
+    @Override
+    public List<UserDto> getAllUserDto() {
+        List<User> users = userRepository.findAll();
+        List<UserDto> userDtos = new ArrayList<>();
+        for(User user:users) {
+            userDtos.add(userDtoMapper.toDto(user));
+        }
+        return userDtos;
+    }
 
 }

@@ -2,6 +2,7 @@ package com.elhaffar.exoformbackend.controllers;
 
 import com.elhaffar.exoformbackend.dto.LoginDto;
 import com.elhaffar.exoformbackend.dto.RegisterDto;
+import com.elhaffar.exoformbackend.dto.UserDto;
 import com.elhaffar.exoformbackend.entities.User;
 import com.elhaffar.exoformbackend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +49,8 @@ public class UserControllers {
         return userService.login(loginDto);
     }
 
+    @GetMapping("/userDto")
+    public List<UserDto> getAllUserDto(){
+        return userService.getAllUserDto();
+    }
 }
