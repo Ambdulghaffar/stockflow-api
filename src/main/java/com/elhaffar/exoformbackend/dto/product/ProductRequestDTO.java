@@ -1,14 +1,11 @@
 package com.elhaffar.exoformbackend.dto.product;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
 public record ProductRequestDTO(
         @NotBlank(message = "Le nom est obligatoire")
-        @Min(value = 3, message = "Le nom doit comporter au moins 3 caractères")
+        @Size(min = 3, message = "Le nom doit comporter au moins 3 caractères")
         String name,
 
         String description,
