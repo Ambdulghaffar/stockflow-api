@@ -45,5 +45,30 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.toResponseDTO(savedProduct);
     }
 
+    @Override
+    public ProductResponseDTO updateProduct(Integer id, ProductRequestDTO productRequestDTO) {
+        // 1. Récupérer le produit existant
+        Product existingProduct = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produit non trouvé avec l'id : " + id));
+
+        // 2. Vérifier si la catégorie existe en base de données
+        /*Category category = categoryRepository.findById(productRequestDTO.categoryId())
+                .orElseThrow(() -> new RuntimeException("Catégorie non trouvée avec l'id : " + productRequestDTO.categoryId()));
+
+         */
+
+        // 3. Mettre à jour les champs de l'entité existante avec les données du DTO
+        productMapper.updateProductFromDto(productRequestDTO, existingProduct);
+
+        // 4. Lier l'entité catégorie récupérée au produit
+        //existingProduct.setCategory(category);
+
+        // 5. Sauvegarder les modifications dans la DB
+        Product updatedProduct = productRepository.save(existingProduct);
+
+        // 6. Retourner le ResponseDTO mis à jour
+        return productMapper.toResponseDTO(updatedProduct);
+    }
+
 
 }

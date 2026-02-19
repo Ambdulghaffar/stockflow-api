@@ -9,4 +9,5 @@ public interface ProductService {
     List<ProductResponseDTO> getAllProducts();
     // On reçoit les données brutes, on renvoie l'objet créé avec son ID et ses dates
     ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO);
+    ProductResponseDTO updateProduct(Integer id, ProductRequestDTO productRequestDTO);
 }

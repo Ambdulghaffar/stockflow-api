@@ -5,6 +5,7 @@ import com.elhaffar.exoformbackend.dto.product.ProductResponseDTO;
 import com.elhaffar.exoformbackend.entities.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
@@ -25,5 +26,17 @@ public interface ProductMapper {
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     Product toEntity(ProductRequestDTO dto);
+
+    /**
+     * 4. Mise à jour (DTO -> Entité existante)
+     * Met à jour l'entité existante avec les données du DTO
+     * @MappingTarget indique à MapStruct de modifier l'objet existant
+     * au lieu d'en créer un nouveau.
+     */
+    @Mapping(source = "categoryId", target = "category.id")
+    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
+    void updateProductFromDto(ProductRequestDTO dto, @MappingTarget Product product);
 
 }

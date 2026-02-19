@@ -18,13 +18,18 @@ public class ProductControllers {
         this.productService = productService;
     }
 
+    @GetMapping
+    public List<ProductResponseDTO> getAllProducts() {
+        return productService.getAllProducts();
+    }
+
     @PostMapping
     public ProductResponseDTO createProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO) {
         return productService.createProduct(productRequestDTO);
     }
 
-    @GetMapping
-    public List<ProductResponseDTO> getAllProducts() {
-        return productService.getAllProducts();
+    @PutMapping("/{id}")
+    public ProductResponseDTO updateProduct(@PathVariable Integer id, @Valid @RequestBody ProductRequestDTO productRequestDTO) {
+        return productService.updateProduct(id, productRequestDTO);
     }
 }
