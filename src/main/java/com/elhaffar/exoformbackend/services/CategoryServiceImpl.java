@@ -27,29 +27,26 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoryResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO) {
-        // 1. Mapper le DTO en Entité Category
+        if (categoryRepository.findByName(categoryRequestDTO.name()).isPresent()) {
+            throw new RuntimeException("Ce nom de catégorie existe déjà !");
+        }
         Category categoryToSave = categoryMapper.toEntity(categoryRequestDTO);
-
-        // 2. Sauvegarder dans la DB
         Category savedCategory = categoryRepository.save(categoryToSave);
-
-        // 3. Retourner le ResponseDTO
         return categoryMapper.toResponseDTO(savedCategory);
     }
 
     @Override
     public CategoryResponseDTO updateCategory(Integer id, CategoryRequestDTO categoryRequestDTO) {
-        // 1. Récupérer la catégorie existante
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Catégorie non trouvée avec l'id : " + id));
 
-        // 2. Mettre à jour les champs de l'entité existante avec les données du DTO
+        categoryRepository.findByName(categoryRequestDTO.name()).ifPresent(existing -> {
+            if (!existing.getId().equals(id)) {
+                throw new RuntimeException("Ce nom de catégorie existe déjà !");
+            }
+        });
         categoryMapper.updateCategoryFromDto(categoryRequestDTO, existingCategory);
-
-        // 3. Sauvegarder les modifications dans la DB
         Category updatedCategory = categoryRepository.save(existingCategory);
-
-        // 4. Retourner le ResponseDTO mis à jour
         return categoryMapper.toResponseDTO(updatedCategory);
     }
 
