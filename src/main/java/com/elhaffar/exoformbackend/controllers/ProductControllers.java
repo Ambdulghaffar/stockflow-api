@@ -14,8 +14,8 @@ import java.util.List;
 public class ProductControllers {
 
     private final ProductService productService;
-    public ProductControllers(ProductService productServiceImpl) {
-        this.productService = productServiceImpl;
+    public ProductControllers(ProductService productService) {
+        this.productService = productService;
     }
 
     @PostMapping
