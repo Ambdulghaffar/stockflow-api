@@ -78,5 +78,12 @@ public class ProductServiceImpl implements ProductService{
         productRepository.deleteById(id);
     }
 
+    @Override
+    public ProductResponseDTO getProductById(Integer id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Produit non trouvé avec l'id : " + id));
+        return productMapper.toResponseDTO(product);
+    }
+
 
 }
