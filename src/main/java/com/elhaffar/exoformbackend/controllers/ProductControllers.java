@@ -32,4 +32,9 @@ public class ProductControllers {
     public ProductResponseDTO updateProduct(@PathVariable Integer id, @Valid @RequestBody ProductRequestDTO productRequestDTO) {
         return productService.updateProduct(id, productRequestDTO);
     }
+
+    @DeleteMapping("/{id}")
+    public void deleteProduct(@PathVariable Integer id) {
+        productService.deleteProduct(id);
+    }
 }

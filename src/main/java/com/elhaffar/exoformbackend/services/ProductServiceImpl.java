@@ -70,5 +70,13 @@ public class ProductServiceImpl implements ProductService{
         return productMapper.toResponseDTO(updatedProduct);
     }
 
+    @Override
+    public void deleteProduct(Integer id) {
+        if(!productRepository.existsById(id)) {
+            throw new RuntimeException("Produit non trouvé avec l'id : " + id);
+        }
+        productRepository.deleteById(id);
+    }
+
 
 }

@@ -10,4 +10,5 @@ public interface ProductService {
     // On reçoit les données brutes, on renvoie l'objet créé avec son ID et ses dates
     ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO);
     ProductResponseDTO updateProduct(Integer id, ProductRequestDTO productRequestDTO);
+    void deleteProduct(Integer id);
 }
