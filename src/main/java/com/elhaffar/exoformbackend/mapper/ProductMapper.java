@@ -33,10 +33,10 @@ public interface ProductMapper {
      * @MappingTarget indique à MapStruct de modifier l'objet existant
      * au lieu d'en créer un nouveau.
      */
-    @Mapping(source = "categoryId", target = "category.id")
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
+    @Mapping(target = "category", ignore = true)
     void updateProductFromDto(ProductRequestDTO dto, @MappingTarget Product product);
 
 }
