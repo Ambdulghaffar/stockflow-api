@@ -51,7 +51,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
 
                         // 3. Exemple de protection par rôle (Optionnel si tu utilises @PreAuthorize)
-                        .requestMatchers("/api/users/**").hasAuthority("ROLE_ADMIN")
+                        //.requestMatchers("/api/users/**").hasAuthority("ROLE_ADMIN")
 
                         // 4. Tout le reste nécessite un Token JWT valide
                         .anyRequest().authenticated()
