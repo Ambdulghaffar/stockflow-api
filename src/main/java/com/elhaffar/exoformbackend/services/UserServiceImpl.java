@@ -27,11 +27,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserResponseDTO createUser(UserRequestDTO userRequestDTO) {
-        // Vérifier si l'email existe déjà
         if (userRepository.findByEmail(userRequestDTO.email()).isPresent()) {
             throw new RuntimeException("Cet email est déjà utilisé !");
         }
-
+        if(userRepository.findByPhone(userRequestDTO.phone()).isPresent()){
+            throw new RuntimeException("Ce numéro de téléphone existe déjà ");
+        }
         // Mapper le DTO en Entité User
         User userToSave = userMapper.toEntity(userRequestDTO);
 
@@ -48,10 +49,14 @@ public class UserServiceImpl implements UserService {
         User existingUser = userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé avec l'id : " + id));
 
-        // Vérifier si l'email existe déjà chez un autre utilisateur
         userRepository.findByEmail(userRequestDTO.email()).ifPresent(existing -> {
             if (!existing.getId().equals(id)) {
                 throw new RuntimeException("Cet email est déjà utilisé !");
+            }
+        });
+        userRepository.findByPhone(userRequestDTO.phone()).ifPresent(existing -> {
+            if (!existing.getId().equals(id)) {
+                throw new RuntimeException("Ce numéro de téléphone est déjà utilisé !");
             }
         });
 
