@@ -30,6 +30,7 @@ public interface UserMapper {
     // 4. Pour l'Authentification (Register)
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "keycloakId", ignore = true)
+    @Mapping(target = "role", ignore = true)
     @Mapping(target = "password", ignore = true) // On ignore pour hacher manuellement dans le service
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)

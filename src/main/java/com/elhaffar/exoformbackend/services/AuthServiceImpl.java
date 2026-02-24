@@ -4,6 +4,7 @@ import com.elhaffar.exoformbackend.dto.auth.AuthResponseDTO;
 import com.elhaffar.exoformbackend.dto.auth.LoginRequestDTO;
 import com.elhaffar.exoformbackend.dto.auth.RegisterRequestDTO;
 import com.elhaffar.exoformbackend.entities.User;
+import com.elhaffar.exoformbackend.enums.UserRole;
 import com.elhaffar.exoformbackend.mapper.UserMapper;
 import com.elhaffar.exoformbackend.repository.UserRepository;
 import com.elhaffar.exoformbackend.security.JwtUtils;
@@ -34,8 +35,8 @@ public class AuthServiceImpl implements AuthService{
             throw new RuntimeException("Ce numéro de téléphone est déjà utilisé");
         }
         User user = userMapper.toEntityFromRegister(dto);
-        String encodedPassword = passwordEncoder.encode(dto.password());
-        user.setPassword(encodedPassword);
+        user.setRole(UserRole.CLIENT);
+        user.setPassword(passwordEncoder.encode(dto.password()));
         userRepository.save(user);
     }
 
