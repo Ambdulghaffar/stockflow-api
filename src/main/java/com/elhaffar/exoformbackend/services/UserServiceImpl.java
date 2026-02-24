@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserResponseDTO> getAllUsers() {
-        List<User> users = userRepository.findAll();
+        List<User> users = userRepository.findAllByOrderByIdDesc();
         return userMapper.toResponseDTOList(users);
     }
 

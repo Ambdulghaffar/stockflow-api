@@ -24,7 +24,7 @@ public class ProductServiceImpl implements ProductService{
 
     @Override
     public List<ProductResponseDTO> getAllProducts() {
-        List<Product> products = productRepository.findAll();
+        List<Product> products = productRepository.findAllByOrderByIdDesc();
         return productMapper.toResponseDTOList(products);
     }
 
