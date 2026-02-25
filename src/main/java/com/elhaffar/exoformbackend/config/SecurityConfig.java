@@ -43,17 +43,16 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable()) // Désactivé car nous sommes en Stateless (JWT)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Pas de session côté serveur
                 .authorizeHttpRequests(auth -> auth
-                        // 1. Endpoints publics (Login & Register)
+                        .requestMatchers(
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html"
+                        ).permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
-
-                        // 2. Consultation libre (Optionnel : tout le monde peut voir les produits)
-                        .requestMatchers(HttpMethod.GET, "/api/products/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
-
-                        // 3. Exemple de protection par rôle (Optionnel si tu utilises @PreAuthorize)
-                        //.requestMatchers("/api/users/**").hasAuthority("ROLE_ADMIN")
-
-                        // 4. Tout le reste nécessite un Token JWT valide
+                        .requestMatchers(HttpMethod.GET,
+                                "/api/products/**",
+                                "/api/categories/**"
+                        ).permitAll()
                         .anyRequest().authenticated()
                 );
 
