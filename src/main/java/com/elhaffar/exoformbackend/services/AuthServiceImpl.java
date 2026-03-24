@@ -50,7 +50,36 @@ public class AuthServiceImpl implements AuthService{
             throw new RuntimeException("Mot de passe incorrect");
         }
 
-        String token = jwtUtils.generateToken(user.getEmail(),user.getRole().name());
-        return new AuthResponseDTO(token,user.getEmail(),user.getRole());
+        String accessToken = jwtUtils.generateToken(user.getEmail(),user.getRole().name());
+        String refreshToken =  jwtUtils.generateRefreshToken(user.getEmail());
+
+        return new AuthResponseDTO(
+                accessToken,
+                refreshToken,
+                jwtUtils.getExpirationTime(),
+                user.getEmail(),
+                user.getRole()
+        );
+    }
+
+    @Override
+    public AuthResponseDTO refreshToken(String refreshToken) {
+        if(!jwtUtils.isTokenValid(refreshToken)){
+            throw new RuntimeException("Refresh Token expiré ou invalide");
+        }
+         String email = jwtUtils.extractEmail(refreshToken);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(()-> new RuntimeException("Utilisateur non trouvé"));
+
+        // On génère un nouvel Access Token, mais on garde le même Refresh Token (ou on en génère un nouveau)
+        String newAccessToken = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
+
+        return new AuthResponseDTO(
+                newAccessToken,
+                refreshToken,
+                jwtUtils.getExpirationTime(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
 }

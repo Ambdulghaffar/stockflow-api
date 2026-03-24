@@ -23,4 +23,11 @@ public class AuthController {
     public AuthResponseDTO login(@Valid @RequestBody LoginRequestDTO dto) {
         return authService.login(dto);
     }
+
+    @PostMapping("/refresh")
+    public AuthResponseDTO refresh(@RequestBody String refreshToken) {
+        // Nettoyage si le token arrive avec des guillemets
+        String cleanToken = refreshToken.replace("\"", "");
+        return authService.refreshToken(cleanToken);
+    }
 }

@@ -13,16 +13,25 @@ import java.util.Date;
 public class JwtUtils {
     // Clé sécurisée de 256 bits minimum pour HS256
     private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long expiration = 86400000; // 24 heures
+    private final long accessTokenExpiration = 900000; // 15 minutes
+    private final long refreshTokenExpiration = 604800000;
+
 
     public String generateToken(String email, String role) {
-        return Jwts.builder()
+        return buildToken(email, role, accessTokenExpiration);
+    }
+
+    public String generateRefreshToken(String email) {
+        return buildToken(email, null, refreshTokenExpiration);
+    }
+
+    private String buildToken(String email, String role, long exp) {
+        var builder = Jwts.builder()
                 .setSubject(email)
-                .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key)
-                .compact();
+                .setExpiration(new Date(System.currentTimeMillis() + exp));
+        if (role != null) builder.claim("role", role);
+        return builder.signWith(key).compact();
     }
 
     public String extractEmail(String token) {
@@ -34,7 +43,11 @@ public class JwtUtils {
     }
 
     public boolean isTokenValid(String token) {
-        return getClaims(token).getExpiration().after(new Date());
+        try {
+            return getClaims(token).getExpiration().after(new Date());
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     private Claims getClaims(String token) {
@@ -43,5 +56,9 @@ public class JwtUtils {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public long getExpirationTime() {
+        return accessTokenExpiration / 1000; // Retourne en secondes pour le DTO
     }
 }
