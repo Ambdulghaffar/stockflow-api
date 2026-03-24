@@ -3,7 +3,9 @@ package com.elhaffar.exoformbackend.dto.auth;
 import com.elhaffar.exoformbackend.enums.UserRole;
 
 public record AuthResponseDTO(
-        String token,
+        String accessToken,
+        String refreshToken,
+        Long expiresIn,
         String email,
         UserRole role
 ) {}
