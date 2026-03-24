@@ -25,9 +25,7 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public AuthResponseDTO refresh(@RequestBody String refreshToken) {
-        // Nettoyage si le token arrive avec des guillemets
-        String cleanToken = refreshToken.replace("\"", "");
-        return authService.refreshToken(cleanToken);
+    public AuthResponseDTO refresh(@RequestBody RefreshRequestDTO request) {
+        return authService.refreshToken(request.refreshToken());
     }
 }

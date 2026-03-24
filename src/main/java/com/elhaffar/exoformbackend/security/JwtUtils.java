@@ -2,20 +2,30 @@ package com.elhaffar.exoformbackend.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-
+import org.springframework.beans.factory.annotation.Value;
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 
 @Component
 public class JwtUtils {
-    // Clé sécurisée de 256 bits minimum pour HS256
-    private final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final long accessTokenExpiration = 900000; // 15 minutes
-    private final long refreshTokenExpiration = 604800000;
+    private final SecretKey key;
+    private final long accessTokenExpiration;
+    private final long refreshTokenExpiration;
 
+    // Injection professionnelle via le constructeur
+    public JwtUtils(
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.access.expiration}") long accessExp,
+            @Value("${jwt.refresh.expiration}") long refreshExp
+    ) {
+        // Transformation du String en SecretKey (HMAC-SHA)
+        this.key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        this.accessTokenExpiration = accessExp;
+        this.refreshTokenExpiration = refreshExp;
+    }
 
     public String generateToken(String email, String role) {
         return buildToken(email, role, accessTokenExpiration);
