@@ -1,4 +1,4 @@
-package com.elhaffar.exoformbackend.security;
+package com.elhaffar.exoformbackend.config;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

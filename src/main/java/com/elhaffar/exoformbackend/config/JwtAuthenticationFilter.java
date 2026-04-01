@@ -1,4 +1,4 @@
-package com.elhaffar.exoformbackend.security;
+package com.elhaffar.exoformbackend.config;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

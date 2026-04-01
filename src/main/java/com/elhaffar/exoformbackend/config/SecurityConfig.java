@@ -1,6 +1,5 @@
 package com.elhaffar.exoformbackend.config;
 
-import com.elhaffar.exoformbackend.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

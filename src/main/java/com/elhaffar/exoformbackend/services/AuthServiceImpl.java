@@ -7,7 +7,7 @@ import com.elhaffar.exoformbackend.entities.User;
 import com.elhaffar.exoformbackend.enums.UserRole;
 import com.elhaffar.exoformbackend.mapper.UserMapper;
 import com.elhaffar.exoformbackend.repository.UserRepository;
-import com.elhaffar.exoformbackend.security.JwtUtils;
+import com.elhaffar.exoformbackend.config.JwtUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
