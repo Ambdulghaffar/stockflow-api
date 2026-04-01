@@ -15,8 +15,8 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public void register(@Valid @RequestBody RegisterRequestDTO dto) {
-        authService.register(dto);
+    public AuthResponseDTO register(@Valid @RequestBody RegisterRequestDTO dto) {
+        return authService.register(dto);
     }
 
     @PostMapping("/login")

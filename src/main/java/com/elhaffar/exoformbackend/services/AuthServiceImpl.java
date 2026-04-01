@@ -27,7 +27,7 @@ public class AuthServiceImpl implements AuthService{
     }
 
     @Override
-    public void register(RegisterRequestDTO dto) {
+    public AuthResponseDTO register(RegisterRequestDTO dto) {
         if(userRepository.findByEmail(dto.email()).isPresent()){
             throw new RuntimeException("Cet email est déjà utilisé");
         }
@@ -38,6 +38,16 @@ public class AuthServiceImpl implements AuthService{
         user.setRole(UserRole.CLIENT);
         user.setPassword(passwordEncoder.encode(dto.password()));
         userRepository.save(user);
+
+        String accessToken = jwtUtils.generateToken(user.getEmail(), user.getRole().name());
+        String refreshToken = jwtUtils.generateRefreshToken(user.getEmail());
+        return new AuthResponseDTO(
+                accessToken,
+                refreshToken,
+                jwtUtils.getExpirationTime(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
 
 
