@@ -11,7 +11,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class UserController {
 
     private final UserService userService;
@@ -21,26 +20,31 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public List<UserResponseDTO> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public UserResponseDTO createUser(@Valid @RequestBody UserRequestDTO userRequestDTO) {
         return userService.createUser(userRequestDTO);
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public UserResponseDTO updateUser(@PathVariable Integer id, @Valid @RequestBody UserRequestDTO userRequestDTO) {
         return userService.updateUser(id, userRequestDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public UserResponseDTO getUserById(@PathVariable Integer id) {
         return userService.getUserById(id);
     }
