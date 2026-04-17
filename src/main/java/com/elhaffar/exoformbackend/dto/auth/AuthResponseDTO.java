@@ -6,6 +6,7 @@ public record AuthResponseDTO(
         String accessToken,
         String refreshToken,
         Long expiresIn,
+        String username,
         String email,
         UserRole role
 ) {}

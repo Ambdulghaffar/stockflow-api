@@ -18,10 +18,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    // ID unique généré par Keycloak lors de l'inscription
-    @Column(unique = true)
-    private String keycloakId;
-
     private String username;
 
     @Column(unique = true, nullable = false)

@@ -46,6 +46,7 @@ public class AuthServiceImpl implements AuthService{
                 refreshToken,
                 jwtUtils.getExpirationTime(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getRole()
         );
     }
@@ -68,6 +69,7 @@ public class AuthServiceImpl implements AuthService{
                 refreshToken,
                 jwtUtils.getExpirationTime(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getRole()
         );
     }
@@ -89,6 +91,7 @@ public class AuthServiceImpl implements AuthService{
                 refreshToken,
                 jwtUtils.getExpirationTime(),
                 user.getEmail(),
+                user.getUsername(),
                 user.getRole()
         );
     }

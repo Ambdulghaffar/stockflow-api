@@ -21,7 +21,6 @@ public interface UserMapper {
 
     // 3. Création (DTO -> Nouvelle Entité)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "keycloakId", ignore = true)
     @Mapping(target = "password", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
@@ -29,7 +28,6 @@ public interface UserMapper {
 
     // 4. Pour l'Authentification (Register)
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "keycloakId", ignore = true)
     @Mapping(target = "role", ignore = true)
     @Mapping(target = "password", ignore = true) // On ignore pour hacher manuellement dans le service
     @Mapping(target = "createdAt", ignore = true)
@@ -43,7 +41,6 @@ public interface UserMapper {
      * au lieu d'en créer un nouveau.
      */
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "keycloakId", ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     void updateUserFromDto(UserRequestDTO dto, @MappingTarget User user);
