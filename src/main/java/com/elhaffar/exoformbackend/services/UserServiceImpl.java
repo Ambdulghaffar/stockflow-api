@@ -1,5 +1,6 @@
 package com.elhaffar.exoformbackend.services;
 
+import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
 import com.elhaffar.exoformbackend.entities.User;
@@ -7,9 +8,11 @@ import com.elhaffar.exoformbackend.exceptions.BusinessException;
 import com.elhaffar.exoformbackend.exceptions.ResourceNotFoundException;
 import com.elhaffar.exoformbackend.mapper.UserMapper;
 import com.elhaffar.exoformbackend.repository.UserRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -22,11 +25,19 @@ public class UserServiceImpl implements UserService {
         this.userMapper = userMapper;
     }
 
+
     @Override
-    public List<UserResponseDTO> getAllUsers() {
-        return userMapper.toResponseDTOList(
-                userRepository.findAllByOrderByIdDesc()
-        );
+    public PageResponseDTO<UserResponseDTO> getAllUsers(int page, int size, String sortBy, String sortDir) {
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortBy).ascending()
+                : Sort.by(sortBy).descending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<UserResponseDTO> result = userRepository.findAll(pageable)
+                .map(userMapper::toResponseDTO);
+
+        return PageResponseDTO.from(result);
     }
 
     @Override
