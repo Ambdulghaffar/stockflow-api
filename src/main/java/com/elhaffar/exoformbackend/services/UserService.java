@@ -5,7 +5,7 @@ import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
 
 public interface UserService {
-    PageResponseDTO<UserResponseDTO> getAllUsers(int page, int size, String sortBy, String sortDir );
+    PageResponseDTO<UserResponseDTO> getAllUsers(int page, int size, String sortBy, String sortDir, String role );
     UserResponseDTO createUser(UserRequestDTO userRequestDTO);
     UserResponseDTO updateUser(Integer id, UserRequestDTO userRequestDTO);
     void deleteUser(Integer id);
