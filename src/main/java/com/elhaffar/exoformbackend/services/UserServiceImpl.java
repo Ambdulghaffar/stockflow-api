@@ -3,6 +3,7 @@ package com.elhaffar.exoformbackend.services;
 import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
+import com.elhaffar.exoformbackend.dto.user.UserStatsDTO;
 import com.elhaffar.exoformbackend.entities.User;
 import com.elhaffar.exoformbackend.enums.UserRole;
 import com.elhaffar.exoformbackend.exceptions.BusinessException;
@@ -102,5 +103,15 @@ public class UserServiceImpl implements UserService {
         return userRepository.findById(id)
                 .map(userMapper::toResponseDTO)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", id));
+    }
+
+    @Override
+    public UserStatsDTO getUserStats() {
+        return new UserStatsDTO(
+                userRepository.count(),
+                userRepository.countByRole(UserRole.ADMIN),
+                userRepository.countByRole(UserRole.MANAGER),
+                userRepository.countByRole(UserRole.CLIENT)
+        );
     }
 }

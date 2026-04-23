@@ -3,6 +3,7 @@ package com.elhaffar.exoformbackend.controllers;
 import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
+import com.elhaffar.exoformbackend.dto.user.UserStatsDTO;
 import com.elhaffar.exoformbackend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -59,5 +60,10 @@ public class UserController {
     @GetMapping("/{id}")
     public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Integer id) {
         return ResponseEntity.ok(userService.getUserById(id));
+    }
+
+    @GetMapping("/stats")
+    public ResponseEntity<UserStatsDTO> getUserStats() {
+        return ResponseEntity.ok(userService.getUserStats());
     }
 }
