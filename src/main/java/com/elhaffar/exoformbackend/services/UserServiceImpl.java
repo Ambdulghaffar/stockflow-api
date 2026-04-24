@@ -29,7 +29,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResponseDTO<UserResponseDTO> getAllUsers(
-            int page, int size, String sortBy, String sortDir, String role) {
+            int page, int size, String sortBy, String sortDir,
+            String role, String search) {
 
         Sort sort = sortDir.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).ascending()
@@ -37,15 +38,19 @@ public class UserServiceImpl implements UserService {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
+        boolean hasSearch = search != null && !search.isBlank();
+        boolean hasRole   = role   != null && !role.isBlank() && !role.equalsIgnoreCase("all");
+
         Page<User> result;
 
-        if (role != null && !role.isBlank() && !role.equalsIgnoreCase("all")) {
+        if (hasSearch) {
+            // Si recherche active → ignore le filtre rôle (UX plus naturelle)
+            result = userRepository.searchUsers(search, pageable);
+        } else if (hasRole) {
             try {
-                // Convertit le String "ADMIN" → UserRole.ADMIN
                 UserRole userRole = UserRole.valueOf(role.toUpperCase());
                 result = userRepository.findByRole(userRole, pageable);
             } catch (IllegalArgumentException e) {
-                // Si le rôle n'existe pas dans l'enum → retourne tout
                 result = userRepository.findAll(pageable);
             }
         } else {

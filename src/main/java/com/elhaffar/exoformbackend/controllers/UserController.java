@@ -28,10 +28,11 @@ public class UserController {
             @RequestParam(defaultValue = "10")   int size,
             @RequestParam(defaultValue = "id")   String sortBy,
             @RequestParam(defaultValue = "desc") String sortDir,
-            @RequestParam(required = false)      String role  //optionnel
+            @RequestParam(required = false)      String role,
+            @RequestParam(required = false)      String search
     ) {
         return ResponseEntity.ok(
-                userService.getAllUsers(page, size, sortBy, sortDir, role)
+                userService.getAllUsers(page, size, sortBy, sortDir, role, search)
         );
     }
 
