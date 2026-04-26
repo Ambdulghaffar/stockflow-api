@@ -12,31 +12,22 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-    // 1. Transformation Unique (Détails d'un produit)
-    @Mapping(source = "category.id", target = "categoryId")
-    @Mapping(source = "category.name", target = "categoryName")
+    // MapStruct mappe automatiquement category.id → categoryId et category.name → categoryName
+    @Mapping(target = "categoryId",   source = "category.id")
+    @Mapping(target = "categoryName", source = "category.name")
     ProductResponseDTO toResponseDTO(Product product);
 
-    // 2. Transformation de Liste (Pour le "Afficher tout")
     List<ProductResponseDTO> toResponseDTOList(List<Product> products);
 
-    // 3. Création (DTO -> Nouvelle Entité)
-    @Mapping(source = "categoryId", target = "category.id")
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id",        ignore = true)
+    @Mapping(target = "category",  ignore = true) // résolu manuellement dans le service
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
     Product toEntity(ProductRequestDTO dto);
 
-    /**
-     * 4. Mise à jour (DTO -> Entité existante)
-     * Met à jour l'entité existante avec les données du DTO
-     * @MappingTarget indique à MapStruct de modifier l'objet existant
-     * au lieu d'en créer un nouveau.
-     */
-    @Mapping(target = "id", ignore = true)
+    @Mapping(target = "id",        ignore = true)
+    @Mapping(target = "category",  ignore = true)
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    @Mapping(target = "category", ignore = true)
     void updateProductFromDto(ProductRequestDTO dto, @MappingTarget Product product);
-
 }

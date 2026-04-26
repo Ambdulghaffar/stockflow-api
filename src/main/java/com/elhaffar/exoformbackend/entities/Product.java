@@ -1,18 +1,21 @@
 package com.elhaffar.exoformbackend.entities;
 
-
+import com.elhaffar.exoformbackend.enums.ProductStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
-@Data
-@AllArgsConstructor
+@Table(name = "products")
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Product {
 
     @Id
@@ -22,29 +25,36 @@ public class Product {
     @Column(nullable = false)
     private String name;
 
+    @Column(length = 1000)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
     @Column(nullable = false)
-    private Integer quantity;
+    private Integer stock;
 
-    private Boolean active;
+    @Column(name = "image_url")
+    private String imageUrl;
 
+    // Relation : plusieurs produits appartiennent à une catégorie
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
 
-    @Column(updatable = false)
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ProductStatus status;
+
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
+    @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
     @PrePersist
-    public void onCreate() {
+    public void onCreate(){
         createdAt = LocalDateTime.now();
-        active = true;
     }
 
     @PreUpdate

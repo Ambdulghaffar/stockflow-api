@@ -1,16 +1,13 @@
 package com.elhaffar.exoformbackend.services;
 
+import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.product.ProductRequestDTO;
 import com.elhaffar.exoformbackend.dto.product.ProductResponseDTO;
 
-import java.util.List;
-
 public interface ProductService {
-    List<ProductResponseDTO> getAllProducts();
-    // On reçoit les données brutes, on renvoie l'objet créé avec son ID et ses dates
-    ProductResponseDTO createProduct(ProductRequestDTO productRequestDTO);
-    ProductResponseDTO updateProduct(Integer id, ProductRequestDTO productRequestDTO);
-    void deleteProduct(Integer id);
+    PageResponseDTO<ProductResponseDTO> getAllProducts(int page, int size, String sortBy, String sortDir, String status, Integer categoryId, String search);
     ProductResponseDTO getProductById(Integer id);
-
+    ProductResponseDTO createProduct(ProductRequestDTO dto);
+    ProductResponseDTO updateProduct(Integer id, ProductRequestDTO dto);
+    void deleteProduct(Integer id);
 }

@@ -2,13 +2,12 @@ package com.elhaffar.exoformbackend.services;
 
 import com.elhaffar.exoformbackend.dto.category.CategoryRequestDTO;
 import com.elhaffar.exoformbackend.dto.category.CategoryResponseDTO;
-
-import java.util.List;
+import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 
 public interface CategoryService {
-    List<CategoryResponseDTO> getAllCategories();
-    CategoryResponseDTO createCategory(CategoryRequestDTO categoryRequestDTO);
-    CategoryResponseDTO updateCategory(Integer id, CategoryRequestDTO categoryRequestDTO);
-    void deleteCategory(Integer id);
+    PageResponseDTO<CategoryResponseDTO> getAllCategories(int page, int size, String sortBy, String sortDir, String search);
     CategoryResponseDTO getCategoryById(Integer id);
+    CategoryResponseDTO createCategory(CategoryRequestDTO dto);
+    CategoryResponseDTO updateCategory(Integer id, CategoryRequestDTO dto);
+    void deleteCategory(Integer id);
 }

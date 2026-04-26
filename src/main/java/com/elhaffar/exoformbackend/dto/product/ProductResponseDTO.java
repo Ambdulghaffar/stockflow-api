@@ -1,5 +1,7 @@
 package com.elhaffar.exoformbackend.dto.product;
 
+import com.elhaffar.exoformbackend.enums.ProductStatus;
+
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -8,10 +10,11 @@ public record ProductResponseDTO(
         String name,
         String description,
         BigDecimal price,
-        Integer quantity,
-        Boolean active,
+        Integer stock,
+        String imageUrl,
         Integer categoryId,
-        String categoryName, // pour le nom de la catégorie
+        String categoryName,
+        ProductStatus status,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
 ) {}

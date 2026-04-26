@@ -1,21 +1,32 @@
 package com.elhaffar.exoformbackend.dto.product;
+
+import com.elhaffar.exoformbackend.enums.ProductStatus;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
 
 public record ProductRequestDTO(
+
         @NotBlank(message = "Le nom est obligatoire")
-        @Size(min = 3, message = "Le nom doit comporter au moins 3 caractères")
+        @Size(min = 2, max = 200, message = "Le nom doit contenir entre 2 et 200 caractères")
         String name,
 
+        @Size(max = 1000, message = "La description ne peut pas dépasser 1000 caractères")
         String description,
 
-        @Positive(message = "Le prix doit être supérieur à 0")
+        @NotNull(message = "Le prix est obligatoire")
+        @DecimalMin(value = "0.0", inclusive = false, message = "Le prix doit être supérieur à 0")
         BigDecimal price,
 
-        @Min(value = 0, message = "La quantité ne peut pas être négative")
-        Integer quantity,
+        @NotNull(message = "Le stock est obligatoire")
+        @Min(value = 0, message = "Le stock ne peut pas être négatif")
+        Integer stock,
 
-        @NotNull(message = "L'ID de la catégorie est obligatoire")
-        Integer categoryId
+        String imageUrl,
+
+        @NotNull(message = "La catégorie est obligatoire")
+        Integer categoryId,
+
+        @NotNull(message = "Le statut est obligatoire")
+        ProductStatus status
 ) {}
