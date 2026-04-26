@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
     public PageResponseDTO<CategoryResponseDTO> getAllCategories(
             int page, int size, String sortBy, String sortDir, String search) {
 
-        Sort sort = sortDir.equalsIgnoreCase("asc")
+        Sort sort = sortDir.equalsIgnoreCase("desc")
                 ? Sort.by(sortBy).ascending()
                 : Sort.by(sortBy).descending();
 
