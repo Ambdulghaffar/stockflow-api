@@ -1,6 +1,6 @@
 package com.elhaffar.exoformbackend.dto.product;
 
-import com.elhaffar.exoformbackend.enums.ProductStatus;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;

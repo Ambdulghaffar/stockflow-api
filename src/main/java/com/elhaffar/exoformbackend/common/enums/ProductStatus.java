@@ -1,4 +1,4 @@
-package com.elhaffar.exoformbackend.enums;
+package com.elhaffar.exoformbackend.common.enums;
 
 public enum ProductStatus {
     ACTIVE,

@@ -1,5 +1,6 @@
-package com.elhaffar.exoformbackend.services;
+package com.elhaffar.exoformbackend.services.impl;
 
+import com.elhaffar.exoformbackend.common.utils.SortUtils;
 import com.elhaffar.exoformbackend.dto.category.CategoryRequestDTO;
 import com.elhaffar.exoformbackend.dto.category.CategoryResponseDTO;
 import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
@@ -8,6 +9,7 @@ import com.elhaffar.exoformbackend.exceptions.BusinessException;
 import com.elhaffar.exoformbackend.exceptions.ResourceNotFoundException;
 import com.elhaffar.exoformbackend.mapper.CategoryMapper;
 import com.elhaffar.exoformbackend.repository.CategoryRepository;
+import com.elhaffar.exoformbackend.services.CategoryService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +30,8 @@ public class CategoryServiceImpl implements CategoryService {
     public PageResponseDTO<CategoryResponseDTO> getAllCategories(
             int page, int size, String sortBy, String sortDir, String search) {
 
-        Sort sort = sortDir.equalsIgnoreCase("desc")
-                ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
 
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size, SortUtils.buildSort(sortBy, sortDir));
 
         boolean hasSearch = search != null && !search.isBlank();
 

@@ -84,10 +84,11 @@ public class Category {
 ```
 
 ### `entities/Product.java`
+
 ```java
 package com.elhaffar.exoformbackend.entities;
 
-import com.elhaffar.exoformbackend.enums.ProductStatus;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -185,10 +186,11 @@ public record CategoryResponseDTO(
 ```
 
 ### `dto/product/ProductRequestDTO.java`
+
 ```java
 package com.elhaffar.exoformbackend.dto.product;
 
-import com.elhaffar.exoformbackend.enums.ProductStatus;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import jakarta.validation.constraints.*;
 
 import java.math.BigDecimal;
@@ -217,14 +219,16 @@ public record ProductRequestDTO(
 
         @NotNull(message = "Le statut est obligatoire")
         ProductStatus status
-) {}
+) {
+}
 ```
 
 ### `dto/product/ProductResponseDTO.java`
+
 ```java
 package com.elhaffar.exoformbackend.dto.product;
 
-import com.elhaffar.exoformbackend.enums.ProductStatus;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -241,7 +245,8 @@ public record ProductResponseDTO(
         ProductStatus status,
         LocalDateTime createdAt,
         LocalDateTime updatedAt
-) {}
+) {
+}
 ```
 
 ---
@@ -277,11 +282,12 @@ public interface CategoryRepository extends JpaRepository<Category, Integer> {
 ```
 
 ### `repository/ProductRepository.java`
+
 ```java
 package com.elhaffar.exoformbackend.repository;
 
 import com.elhaffar.exoformbackend.entities.Product;
-import com.elhaffar.exoformbackend.enums.ProductStatus;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -303,12 +309,13 @@ public interface ProductRepository extends JpaRepository<Product, Integer> {
 
     // Recherche sur nom ou description
     @Query("SELECT p FROM Product p WHERE " +
-           "LOWER(p.name)        LIKE LOWER(CONCAT('%', :search, '%')) OR " +
-           "LOWER(p.description) LIKE LOWER(CONCAT('%', :search, '%'))")
+            "LOWER(p.name)        LIKE LOWER(CONCAT('%', :search, '%')) OR " +
+            "LOWER(p.description) LIKE LOWER(CONCAT('%', :search, '%'))")
     Page<Product> searchProducts(@Param("search") String search, Pageable pageable);
 
     // Stats
     long countByStatus(ProductStatus status);
+
     long countByCategoryId(Integer categoryId);
 }
 ```
@@ -513,6 +520,7 @@ public interface ProductService {
 ```
 
 ### `services/ProductServiceImpl.java`
+
 ```java
 package com.elhaffar.exoformbackend.services;
 
@@ -521,8 +529,7 @@ import com.elhaffar.exoformbackend.dto.product.ProductRequestDTO;
 import com.elhaffar.exoformbackend.dto.product.ProductResponseDTO;
 import com.elhaffar.exoformbackend.entities.Category;
 import com.elhaffar.exoformbackend.entities.Product;
-import com.elhaffar.exoformbackend.enums.ProductStatus;
-import com.elhaffar.exoformbackend.exceptions.BusinessException;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import com.elhaffar.exoformbackend.exceptions.ResourceNotFoundException;
 import com.elhaffar.exoformbackend.mapper.ProductMapper;
 import com.elhaffar.exoformbackend.repository.CategoryRepository;
@@ -538,8 +545,8 @@ public class ProductServiceImpl implements ProductService {
     private final ProductMapper productMapper;
 
     public ProductServiceImpl(ProductRepository productRepository,
-                               CategoryRepository categoryRepository,
-                               ProductMapper productMapper) {
+                              CategoryRepository categoryRepository,
+                              ProductMapper productMapper) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.productMapper = productMapper;
@@ -556,8 +563,8 @@ public class ProductServiceImpl implements ProductService {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        boolean hasSearch     = search     != null && !search.isBlank();
-        boolean hasStatus     = status     != null && !status.isBlank() && !status.equalsIgnoreCase("all");
+        boolean hasSearch = search != null && !search.isBlank();
+        boolean hasStatus = status != null && !status.isBlank() && !status.equalsIgnoreCase("all");
         boolean hasCategoryId = categoryId != null;
 
         Page<Product> result;

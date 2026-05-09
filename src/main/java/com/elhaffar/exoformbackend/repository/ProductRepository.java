@@ -1,7 +1,7 @@
 package com.elhaffar.exoformbackend.repository;
 
 import com.elhaffar.exoformbackend.entities.Product;
-import com.elhaffar.exoformbackend.enums.ProductStatus;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

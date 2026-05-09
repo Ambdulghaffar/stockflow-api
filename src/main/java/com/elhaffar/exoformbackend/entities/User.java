@@ -1,16 +1,16 @@
 package com.elhaffar.exoformbackend.entities;
 
-import com.elhaffar.exoformbackend.enums.UserRole;
+import com.elhaffar.exoformbackend.common.enums.UserRole;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
+@Table(name="users")
 @Entity
 public class User {
 

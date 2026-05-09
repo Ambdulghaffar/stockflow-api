@@ -1,16 +1,17 @@
-package com.elhaffar.exoformbackend.services;
+package com.elhaffar.exoformbackend.services.impl;
 
+import com.elhaffar.exoformbackend.common.utils.SortUtils;
 import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.product.ProductRequestDTO;
 import com.elhaffar.exoformbackend.dto.product.ProductResponseDTO;
 import com.elhaffar.exoformbackend.entities.Category;
 import com.elhaffar.exoformbackend.entities.Product;
-import com.elhaffar.exoformbackend.enums.ProductStatus;
-import com.elhaffar.exoformbackend.exceptions.BusinessException;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import com.elhaffar.exoformbackend.exceptions.ResourceNotFoundException;
 import com.elhaffar.exoformbackend.mapper.ProductMapper;
 import com.elhaffar.exoformbackend.repository.CategoryRepository;
 import com.elhaffar.exoformbackend.repository.ProductRepository;
+import com.elhaffar.exoformbackend.services.ProductService;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
@@ -34,11 +35,7 @@ public class ProductServiceImpl implements ProductService {
             int page, int size, String sortBy, String sortDir,
             String status, Integer categoryId, String search) {
 
-        Sort sort = sortDir.equalsIgnoreCase("asc")
-                ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size, SortUtils.buildSort(sortBy, sortDir));
 
         boolean hasSearch     = search     != null && !search.isBlank();
         boolean hasStatus     = status     != null && !status.isBlank() && !status.equalsIgnoreCase("all");

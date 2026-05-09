@@ -1,18 +1,20 @@
-package com.elhaffar.exoformbackend.services;
+package com.elhaffar.exoformbackend.services.impl;
 
 import com.elhaffar.exoformbackend.dto.auth.AuthResponseDTO;
 import com.elhaffar.exoformbackend.dto.auth.LoginRequestDTO;
 import com.elhaffar.exoformbackend.dto.auth.RegisterRequestDTO;
 import com.elhaffar.exoformbackend.entities.User;
-import com.elhaffar.exoformbackend.enums.UserRole;
+import com.elhaffar.exoformbackend.common.enums.UserRole;
+import com.elhaffar.exoformbackend.exceptions.BusinessException;
 import com.elhaffar.exoformbackend.mapper.UserMapper;
 import com.elhaffar.exoformbackend.repository.UserRepository;
 import com.elhaffar.exoformbackend.config.JwtUtils;
+import com.elhaffar.exoformbackend.services.AuthService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AuthServiceImpl implements AuthService{
+public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
@@ -29,10 +31,10 @@ public class AuthServiceImpl implements AuthService{
     @Override
     public AuthResponseDTO register(RegisterRequestDTO dto) {
         if(userRepository.findByEmail(dto.email()).isPresent()){
-            throw new RuntimeException("Cet email est déjà utilisé");
+            throw new BusinessException("Cet email est déjà utilisé");
         }
         if(userRepository.findByPhone(dto.phone()).isPresent()){
-            throw new RuntimeException("Ce numéro de téléphone est déjà utilisé");
+            throw new BusinessException("Ce numéro de téléphone est déjà utilisé");
         }
         User user = userMapper.toEntityFromRegister(dto);
         user.setRole(UserRole.CLIENT);

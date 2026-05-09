@@ -1,19 +1,21 @@
-package com.elhaffar.exoformbackend.services;
+package com.elhaffar.exoformbackend.services.impl;
 
+import com.elhaffar.exoformbackend.common.utils.SortUtils;
 import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserStatsDTO;
 import com.elhaffar.exoformbackend.entities.User;
-import com.elhaffar.exoformbackend.enums.UserRole;
+import com.elhaffar.exoformbackend.common.enums.UserRole;
 import com.elhaffar.exoformbackend.exceptions.BusinessException;
 import com.elhaffar.exoformbackend.exceptions.ResourceNotFoundException;
 import com.elhaffar.exoformbackend.mapper.UserMapper;
 import com.elhaffar.exoformbackend.repository.UserRepository;
+import com.elhaffar.exoformbackend.services.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,10 +23,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -32,11 +36,7 @@ public class UserServiceImpl implements UserService {
             int page, int size, String sortBy, String sortDir,
             String role, String search) {
 
-        Sort sort = sortDir.equalsIgnoreCase("desc")
-                ? Sort.by(sortBy).ascending()
-                : Sort.by(sortBy).descending();
-
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size, SortUtils.buildSort(sortBy, sortDir));
 
         boolean hasSearch = search != null && !search.isBlank();
         boolean hasRole   = role   != null && !role.isBlank() && !role.equalsIgnoreCase("all");
@@ -70,8 +70,10 @@ public class UserServiceImpl implements UserService {
             throw new BusinessException("Ce numéro de téléphone est déjà utilisé");
         }
 
-        User saved = userRepository.save(userMapper.toEntity(dto));
-        return userMapper.toResponseDTO(saved);
+        User user = userMapper.toEntity(dto);
+        user.setPassword(passwordEncoder.encode(dto.password()));
+
+        return userMapper.toResponseDTO(userRepository.save(user));
     }
 
     @Override

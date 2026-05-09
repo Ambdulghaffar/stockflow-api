@@ -1,7 +1,7 @@
 package com.elhaffar.exoformbackend.repository;
 
 import com.elhaffar.exoformbackend.entities.User;
-import com.elhaffar.exoformbackend.enums.UserRole;
+import com.elhaffar.exoformbackend.common.enums.UserRole;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,10 +1,8 @@
 package com.elhaffar.exoformbackend.entities;
 
-import com.elhaffar.exoformbackend.enums.ProductStatus;
+import com.elhaffar.exoformbackend.common.enums.ProductStatus;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
