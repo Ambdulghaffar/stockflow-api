@@ -3,6 +3,7 @@ package com.elhaffar.exoformbackend.mapper;
 import com.elhaffar.exoformbackend.dto.auth.RegisterRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
+import com.elhaffar.exoformbackend.dto.user.UserUpdateDTO;
 import com.elhaffar.exoformbackend.entities.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -41,8 +42,9 @@ public interface UserMapper {
      * au lieu d'en créer un nouveau.
      */
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "password", ignore = true) // password jamais touché
     @Mapping(target = "createdAt", ignore = true)
     @Mapping(target = "updatedAt", ignore = true)
-    void updateUserFromDto(UserRequestDTO dto, @MappingTarget User user);
+    void updateUserFromDto(UserUpdateDTO dto, @MappingTarget User user);
 
 }

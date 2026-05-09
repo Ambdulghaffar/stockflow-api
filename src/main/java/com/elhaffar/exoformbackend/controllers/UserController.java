@@ -4,6 +4,7 @@ import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserStatsDTO;
+import com.elhaffar.exoformbackend.dto.user.UserUpdateDTO;
 import com.elhaffar.exoformbackend.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -46,8 +47,8 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<UserResponseDTO> updateUser(
             @PathVariable Integer id,
-            @Valid @RequestBody UserRequestDTO userRequestDTO) {
-        return ResponseEntity.ok(userService.updateUser(id, userRequestDTO));
+            @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+        return ResponseEntity.ok(userService.updateUser(id, userUpdateDTO));
     }
 
     // 204 No Content au lieu de void avec 200

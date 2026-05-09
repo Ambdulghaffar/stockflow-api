@@ -5,6 +5,7 @@ import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserStatsDTO;
+import com.elhaffar.exoformbackend.dto.user.UserUpdateDTO;
 import com.elhaffar.exoformbackend.entities.User;
 import com.elhaffar.exoformbackend.common.enums.UserRole;
 import com.elhaffar.exoformbackend.exceptions.BusinessException;
@@ -77,7 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponseDTO updateUser(Integer id, UserRequestDTO dto) {
+    public UserResponseDTO updateUser(Integer id, UserUpdateDTO dto) {
         // ResourceNotFoundException → 404
         User existing = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Utilisateur", id));

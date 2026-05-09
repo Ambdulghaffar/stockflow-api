@@ -4,11 +4,12 @@ import com.elhaffar.exoformbackend.dto.common.PageResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserRequestDTO;
 import com.elhaffar.exoformbackend.dto.user.UserResponseDTO;
 import com.elhaffar.exoformbackend.dto.user.UserStatsDTO;
+import com.elhaffar.exoformbackend.dto.user.UserUpdateDTO;
 
 public interface UserService {
     PageResponseDTO<UserResponseDTO> getAllUsers(int page, int size, String sortBy, String sortDir, String role , String search);
     UserResponseDTO createUser(UserRequestDTO userRequestDTO);
-    UserResponseDTO updateUser(Integer id, UserRequestDTO userRequestDTO);
+    UserResponseDTO updateUser(Integer id, UserUpdateDTO userUpdateDTO);
     void deleteUser(Integer id);
     UserResponseDTO getUserById(Integer id);
     UserStatsDTO getUserStats();
